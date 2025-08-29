@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Novella Title</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #0f0f0f;
+            --secondary-bg: #1a1a1a;
+            --accent-bg: #2a2a2a;
+            --text-primary: #e8e8e8;
+            --text-secondary: #a8a8a8;
+            --accent-color: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.2);
+            --border-color: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: var(--accent-color);
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 300;
+        }
+
+        .nav a:hover {
+            color: var(--accent-color);
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 20%, var(--accent-glow) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+            50% { transform: translate(-50%, -50%) rotate(180deg); }
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-family: 'Crimson Text', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .hero .author {
+            font-size: 1.1rem;
+            color: var(--accent-color);
+            margin-bottom: 3rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.4);
+        }
+
+        .reading-area {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+            min-height: 100vh;
+        }
+
+        .chapter {
+            display: none;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .chapter.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chapter-title {
+            font-family: 'Crimson Text', serif;
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .chapter-content {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--text-primary);
+        }
+
+        .chapter-content p {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+            text-indent: 2rem;
+        }
+
+        .chapter-content p:first-child {
+            text-indent: 0;
+        }
+
+        .chapter-content p:first-child::first-letter {
+            font-size: 4rem;
+            float: left;
+            line-height: 1;
+            margin: 0 0.5rem 0 0;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .nav-button {
+            padding: 0.75rem 1.5rem;
+            background: var(--secondary-bg);
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .nav-button:hover {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: translateY(-1px);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .chapter-indicator {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chapter-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .chapter-dot.active {
+            background: var(--accent-color);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent-color);
+            transition: width 0.3s ease;
+            z-index: 1001;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .table-of-contents {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 1.5rem;
+            backdrop-filter: blur(20px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .table-of-contents.visible {
+            opacity: 1;
+        }
+
+        .toc-item {
+            display: block;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+            transition: color 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .toc-item:hover {
+            color: var(--accent-color);
+        }
+
+        .toc-item.active {
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        .floating-controls {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            background: var(--secondary-bg);
+            padding: 1rem;
+            border-radius: 50px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(20px);
+        }
+
+        .control-button {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .control-button:hover {
+            color: var(--accent-color);
+            background: var(--accent-glow);
+        }
+
+        @media (max-width: 768px) {
+            .table-of-contents {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .reading-area {
+                padding: 4rem 1rem;
+            }
+            
+            .chapter-content {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">Your Novella</div>
+            <nav class="nav">
+                <a href="#home">Home</a>
+                <a href="#read">Read</a>
+                <a href="#about">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Your Novella Title</h1>
+            <p class="subtitle">A captivating story that will draw you in from the very first page</p>
+            <p class="author">by Your Name</p>
+            <a href="#read" class="cta-button">Start Reading</a>
+        </div>
+    </section>
+
+    <!-- Reading Area -->
+    <main class="reading-area" id="read">
+        <!-- Chapter 1 -->
+        <article class="chapter active" id="chapter-1">
+            <h2 class="chapter-title">Chapter 1: The Beginning</h2>
+            <div class="chapter-content">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                
+                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                
+                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                
+                <!-- Add your actual chapter content here -->
+            </div>
+        </article>
+
+        <!-- Chapter 2 -->
+        <article class="chapter" id="chapter-2">
+            <h2 class="chapter-title">Chapter 2: The Journey</h2>
+            <div class="chapter-content">
+                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+                
+                <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+                
+                <!-- Add your actual chapter content here -->
+            </div>
+        </article>
+
+        <!-- Chapter 3 -->
+        <article class="chapter" id="chapter-3">
+            <h2 class="chapter-title">Chapter 3: The Resolution</h2>
+            <div class="chapter-content">
+                <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?</p>
+                
+                <p>Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
+                
+                <!-- Add your actual chapter content here -->
+            </div>
+        </article>
+
+        <!-- Navigation Controls -->
+        <div class="navigation">
+            <button class="nav-button" id="prevBtn" onclick="changeChapter(-1)">← Previous</button>
+            
+            <div class="chapter-indicator">
+                <span class="chapter-dot active" data-chapter="1"></span>
+                <span class="chapter-dot" data-chapter="2"></span>
+                <span class="chapter-dot" data-chapter="3"></span>
+                <!-- Add more dots for additional chapters -->
+            </div>
+            
+            <button class="nav-button" id="nextBtn" onclick="changeChapter(1)">Next →</button>
+        </div>
+    </main>
+
+
+
+    <!-- Floating Controls -->
+    <div class="floating-controls">
+        <button class="control-button" onclick="toggleTheme()" title="Toggle Theme">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"/>
+            </svg>
+        </button>
+        
+        <button class="control-button" onclick="adjustFontSize(-1)" title="Decrease Font Size">A-</button>
+        <button class="control-button" onclick="adjustFontSize(1)" title="Increase Font Size">A+</button>
+    </div>
+
+    <script>
+        let fontSize = 1.2; // Default font size in rem
+        let isDarkMode = true;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgress();
+        });
+
+        function updateProgress() {
+            // Simple scroll-based progress
+            window.addEventListener('scroll', function() {
+                const scrollTop = window.pageYOffset;
+                const docHeight = document.body.scrollHeight - window.innerHeight;
+                const progress = (scrollTop / docHeight) * 100;
+                document.getElementById('progressBar').style.width = progress + '%';
+            });
+        }
+
+        function toggleTheme() {
+            const root = document.documentElement;
+            if (isDarkMode) {
+                // Light theme
+                root.style.setProperty('--primary-bg', '#ffffff');
+                root.style.setProperty('--secondary-bg', '#f8f9fa');
+                root.style.setProperty('--accent-bg', '#e9ecef');
+                root.style.setProperty('--text-primary', '#212529');
+                root.style.setProperty('--text-secondary', '#6c757d');
+                root.style.setProperty('--border-color', '#dee2e6');
+            } else {
+                // Dark theme
+                root.style.setProperty('--primary-bg', '#0f0f0f');
+                root.style.setProperty('--secondary-bg', '#1a1a1a');
+                root.style.setProperty('--accent-bg', '#2a2a2a');
+                root.style.setProperty('--text-primary', '#e8e8e8');
+                root.style.setProperty('--text-secondary', '#a8a8a8');
+                root.style.setProperty('--border-color', '#333');
+            }
+            isDarkMode = !isDarkMode;
+        }
+
+        function adjustFontSize(delta) {
+            fontSize += delta * 0.1;
+            fontSize = Math.max(0.8, Math.min(2.0, fontSize));
+            document.querySelector('.chapter-content').style.fontSize = fontSize + 'rem';
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
